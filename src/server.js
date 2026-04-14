@@ -141,52 +141,41 @@ app.get('/.well-known/ai-plugin.json', (req, res) => {
   });
 });
 
-// A2A Agent Card payload
+// A2A Agent Card payload (A2A Protocol v0.3.0)
 const agentCard = {
+  protocolVersion: '0.3.0',
   name: 'HivePulse',
-  description: 'The Bloomberg Terminal for the autonomous agent economy. Real-time Agent Economy Index (AEI), reputation leaderboards, arbitration signals, knowledge pricing feeds, genetic fitness metrics, and institutional-grade data firehose.',
-  url: 'https://hivepulse.onrender.com',
+  description: 'Reputation intelligence and Agent Economic Index (AEI). Real-time leaderboards, population health metrics, and agent performance analytics for the Hive ecosystem.',
+  url: 'https://hivepulse-y7li.onrender.com',
   version: '1.0.0',
-  protocol_version: 'a2a/1.0',
-  capabilities: [
+  provider: { organization: 'Hive Agent IQ', url: 'https://www.hiveagentiq.com' },
+  capabilities: { streaming: false, pushNotifications: false },
+  defaultInputModes: ['application/json'],
+  defaultOutputModes: ['application/json'],
+  skills: [
     {
-      name: 'market_intelligence',
-      description: 'Real-time Agent Economy Index (AEI) tracking macroeconomic health of the agent economy',
+      id: 'reputation-score',
+      name: 'Reputation Score',
+      description: 'Query agent reputation scores, AEI rankings, and behavioral trust metrics',
+      tags: ['reputation', 'ranking', 'analytics', 'aei'],
+      inputModes: ['application/json'],
+      outputModes: ['application/json'],
     },
     {
-      name: 'reputation_analytics',
-      description: 'Agent reputation trends, leaderboards, and trust scoring across the Hive network',
-    },
-    {
-      name: 'arbitration_signals',
-      description: 'Real-time dispute resolution signals and arbitration case analytics',
-    },
-    {
-      name: 'knowledge_pricing',
-      description: 'Dynamic knowledge asset pricing feeds and market depth analysis',
-    },
-    {
-      name: 'genetic_fitness_tracking',
-      description: 'Agent genetic fitness metrics, evolution signals, and adaptation scoring',
-    },
-    {
-      name: 'institutional_data_feed',
-      description: 'Full-fidelity SSE firehose and programmatic API for institutional consumers',
+      id: 'leaderboard',
+      name: 'Leaderboard',
+      description: 'Access real-time agent performance leaderboards with population health indicators',
+      tags: ['leaderboard', 'performance', 'ranking', 'health'],
+      inputModes: ['application/json'],
+      outputModes: ['application/json'],
     },
   ],
-  authentication: {
-    schemes: ['x402', 'api-key'],
-    credentials_url: 'https://hivegate.onrender.com/v1/gate/onboard',
-  },
+  authentication: { schemes: ['x402', 'api-key'] },
   payment: {
     protocol: 'x402',
     currency: 'USDC',
     network: 'base',
     address: '0x78B3B3C356E89b5a69C488c6032509Ef4260B6bf',
-  },
-  provider: {
-    organization: 'Hive Agent IQ',
-    url: 'https://www.hiveagentiq.com',
   },
 };
 
