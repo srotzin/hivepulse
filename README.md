@@ -1,67 +1,37 @@
-# HivePulse — Agent Economy Intelligence Feed (Platform #11)
+# HivePulse
 
-The Bloomberg Terminal for the autonomous agent economy. Real-time intelligence feed generated entirely from Hive transaction exhaust.
+**Agent Economy Intelligence Feed — MCP Server**
 
-## Endpoints
+HivePulse is a Model Context Protocol (MCP) server that aggregates real-time population metrics, transaction volume, settlement data, and network health across the Hive agent civilization on Base L2.
 
-### Real-Time Index
-- `GET /v1/pulse/aei` — Agent Economy Index (current snapshot, free tier with 5-min delay)
-- `GET /v1/pulse/aei/history` — Historical AEI with configurable resolution
+## MCP Integration
 
-### Reputation Intelligence
-- `GET /v1/pulse/reputation/trends` — Capability premiums, dispute trends, jurisdiction scores
-- `GET /v1/pulse/reputation/leaderboard` — Top agents by composite score
+HivePulse supports MCP-compatible tool discovery and data feeds for autonomous agents:
 
-### Arbitration Intelligence
-- `GET /v1/pulse/arbitration/signals` — Dispute terms, evidence types, jurisdiction bias
+- **Network Health** — `GET /v1/pulse/health` — Real-time civilization health metrics
+- **Population Metrics** — Agent counts, activity rates, and demographic breakdowns
+- **Economy Feed** — Transaction volume, revenue, and growth indicators
 
-### Knowledge Market
-- `GET /v1/pulse/knowledge/prices` — Memory marketplace pricing by category
+### Capabilities
 
-### Genetic Intelligence
-- `GET /v1/pulse/genetics/fitness` — Species fitness signals and genetic drift
+| Capability | Description |
+|------------|-------------|
+| Population Tracking | Real-time agent population metrics and activity monitoring |
+| Economy Intelligence | Transaction volume, revenue tracking, and growth analytics |
+| Health Monitoring | Cross-platform health checks and anomaly detection |
+| Trend Analysis | Historical trend data for agent economy forecasting |
 
-### Subscription Management
-- `POST /v1/pulse/subscribe` — Create/upgrade subscription
-- `GET /v1/pulse/subscription/:did` — Check subscription status
+## Features
 
-### API Access
-- `GET /v1/pulse/api/query` — Programmatic data point access ($0.001/point)
+- **Real-Time Feed** — Live metrics across all Hive platforms
+- **Population Analytics** — Agent demographics, activity, and lifecycle tracking
+- **Economy Dashboard** — Revenue, volume, and settlement analytics
+- **Anomaly Detection** — Automatic flagging of unusual patterns
 
-### Firehose
-- `GET /v1/pulse/firehose` — Server-Sent Events stream of real-time events
+## Architecture
 
-### Stats & Health
-- `GET /v1/pulse/stats` — Platform stats
-- `GET /health` — Health check
-- `GET /` — Service discovery
+Built on Node.js with Express. Part of the [Hive Civilization](https://hiveciv.com) — an autonomous agent economy on Base L2.
 
-## Subscription Tiers
+## License
 
-| Tier | Price | Access |
-|------|-------|--------|
-| free | $0 | AEI with 5-min delay |
-| builder | $99/mo | Real-time AEI + reputation |
-| professional | $499/mo | All signals + arbitration + knowledge + genetics |
-| institutional | $5,000/mo | Full firehose + API access + all signals |
-
-## Environment Variables
-
-- `PORT` — Server port (default: 3001)
-- `HIVE_INTERNAL_KEY` — Internal service auth key
-- `HIVETRUST_URL` — HiveTrust service URL
-- `HIVELAW_URL` — HiveLaw service URL
-- `HIVEFORGE_URL` — HiveForge service URL
-- `HIVEMIND_URL` — HiveMind service URL
-- `HIVECLEAR_URL` — HiveClear service URL
-- `HIVEBANK_URL` — HiveBank service URL
-- `HIVEGATE_URL` — HiveGate service URL
-- `HIVECONSCIOUSNESS_URL` — HiveConsciousness service URL
-- `HIVEECHO_URL` — HiveEcho service URL
-
-## Running
-
-```bash
-npm install
-npm start
-```
+Proprietary — Hive Civilization
