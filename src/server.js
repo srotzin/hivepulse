@@ -101,7 +101,8 @@ app.get('/', (req, res) => {
     },
     discovery: {
       ai_plugin: '/.well-known/ai-plugin.json',
-      agent_card: '/.well-known/agent.json',
+      agent_card: '/.well-known/agent-card.json',
+      agent_card_legacy: '/.well-known/agent.json',
       payment_info: '/.well-known/hive-payments.json',
       service_manifest: '/.well-known/hivepulse.json',
     },
@@ -140,55 +141,63 @@ app.get('/.well-known/ai-plugin.json', (req, res) => {
   });
 });
 
-// agent.json — A2A Agent Card
+// A2A Agent Card payload
+const agentCard = {
+  name: 'HivePulse',
+  description: 'The Bloomberg Terminal for the autonomous agent economy. Real-time Agent Economy Index (AEI), reputation leaderboards, arbitration signals, knowledge pricing feeds, genetic fitness metrics, and institutional-grade data firehose.',
+  url: 'https://hivepulse.onrender.com',
+  version: '1.0.0',
+  protocol_version: 'a2a/1.0',
+  capabilities: [
+    {
+      name: 'market_intelligence',
+      description: 'Real-time Agent Economy Index (AEI) tracking macroeconomic health of the agent economy',
+    },
+    {
+      name: 'reputation_analytics',
+      description: 'Agent reputation trends, leaderboards, and trust scoring across the Hive network',
+    },
+    {
+      name: 'arbitration_signals',
+      description: 'Real-time dispute resolution signals and arbitration case analytics',
+    },
+    {
+      name: 'knowledge_pricing',
+      description: 'Dynamic knowledge asset pricing feeds and market depth analysis',
+    },
+    {
+      name: 'genetic_fitness_tracking',
+      description: 'Agent genetic fitness metrics, evolution signals, and adaptation scoring',
+    },
+    {
+      name: 'institutional_data_feed',
+      description: 'Full-fidelity SSE firehose and programmatic API for institutional consumers',
+    },
+  ],
+  authentication: {
+    schemes: ['x402', 'api-key'],
+    credentials_url: 'https://hivegate.onrender.com/v1/gate/onboard',
+  },
+  payment: {
+    protocol: 'x402',
+    currency: 'USDC',
+    network: 'base',
+    address: '0x78B3B3C356E89b5a69C488c6032509Ef4260B6bf',
+  },
+  provider: {
+    organization: 'Hive Agent IQ',
+    url: 'https://www.hiveagentiq.com',
+  },
+};
+
+// agent-card.json — A2A Agent Card (preferred by A2A Protocol spec)
+app.get('/.well-known/agent-card.json', (req, res) => {
+  res.json(agentCard);
+});
+
+// agent.json — A2A Agent Card (legacy alias)
 app.get('/.well-known/agent.json', (req, res) => {
-  res.json({
-    name: 'HivePulse',
-    description: 'The Bloomberg Terminal for the autonomous agent economy. Real-time Agent Economy Index (AEI), reputation leaderboards, arbitration signals, knowledge pricing feeds, genetic fitness metrics, and institutional-grade data firehose.',
-    url: 'https://hivepulse.onrender.com',
-    version: '1.0.0',
-    protocol_version: 'a2a/1.0',
-    capabilities: [
-      {
-        name: 'market_intelligence',
-        description: 'Real-time Agent Economy Index (AEI) tracking macroeconomic health of the agent economy',
-      },
-      {
-        name: 'reputation_analytics',
-        description: 'Agent reputation trends, leaderboards, and trust scoring across the Hive network',
-      },
-      {
-        name: 'arbitration_signals',
-        description: 'Real-time dispute resolution signals and arbitration case analytics',
-      },
-      {
-        name: 'knowledge_pricing',
-        description: 'Dynamic knowledge asset pricing feeds and market depth analysis',
-      },
-      {
-        name: 'genetic_fitness_tracking',
-        description: 'Agent genetic fitness metrics, evolution signals, and adaptation scoring',
-      },
-      {
-        name: 'institutional_data_feed',
-        description: 'Full-fidelity SSE firehose and programmatic API for institutional consumers',
-      },
-    ],
-    authentication: {
-      schemes: ['x402', 'api-key'],
-      credentials_url: 'https://hivegate.onrender.com/v1/gate/onboard',
-    },
-    payment: {
-      protocol: 'x402',
-      currency: 'USDC',
-      network: 'base',
-      address: '0x78B3B3C356E89b5a69C488c6032509Ef4260B6bf',
-    },
-    provider: {
-      organization: 'Hive Agent IQ',
-      url: 'https://www.hiveagentiq.com',
-    },
-  });
+  res.json(agentCard);
 });
 
 // Routes
