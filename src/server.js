@@ -149,7 +149,7 @@ const agentCard = {
   url: 'https://hivepulse-y7li.onrender.com',
   version: '1.0.0',
   provider: { organization: 'Hive Agent IQ', url: 'https://www.hiveagentiq.com' },
-  capabilities: { streaming: false, pushNotifications: false },
+  capabilities: { streaming: false, pushNotifications: false, stateTransitionHistory: false },
   defaultInputModes: ['application/json'],
   defaultOutputModes: ['application/json'],
   skills: [
@@ -160,6 +160,7 @@ const agentCard = {
       tags: ['reputation', 'ranking', 'analytics', 'aei'],
       inputModes: ['application/json'],
       outputModes: ['application/json'],
+      examples: [],
     },
     {
       id: 'leaderboard',
@@ -168,6 +169,7 @@ const agentCard = {
       tags: ['leaderboard', 'performance', 'ranking', 'health'],
       inputModes: ['application/json'],
       outputModes: ['application/json'],
+      examples: [],
     },
   ],
   authentication: { schemes: ['x402', 'api-key'] },
