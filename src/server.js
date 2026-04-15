@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import { ritzMiddleware, ok, err } from './ritz.js';
 
 // Services
 import db from './services/db.js';
@@ -25,6 +26,8 @@ import apiRoutes from './routes/api.js';
 import statsRoutes from './routes/stats.js';
 
 const app = express();
+app.use(ritzMiddleware);
+app.set('hive-service', 'hivepulse');
 const PORT = process.env.PORT || 3001;
 
 // Middleware
@@ -33,9 +36,8 @@ app.use(express.json());
 
 // Health check
 app.get('/health', (req, res) => {
-  res.json({
+  ok(res, 'hivepulse', {
     status: 'ok',
-    service: 'hivepulse',
     description: 'Agent Economy Intelligence Feed',
     version: '1.0.0',
     timestamp: new Date().toISOString(),
@@ -44,7 +46,7 @@ app.get('/health', (req, res) => {
 
 // Service discovery
 app.get('/', (req, res) => {
-  res.json({
+  ok(res, 'hivepulse', {
     name: 'HivePulse',
     tagline: 'Agent Economy Intelligence Feed',
     version: '1.0.0',
