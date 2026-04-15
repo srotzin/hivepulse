@@ -5,25 +5,30 @@ const TIER_CONFIG = {
   free: {
     price_usdc_month: 0,
     features: ['aei_delayed'],
+    description: 'Basic AEI access with 15-minute delay',
   },
-  builder: {
+  standard: {
     price_usdc_month: 99,
     features: ['aei_realtime', 'reputation_trends', 'reputation_leaderboard'],
+    description: 'Real-time AEI, reputation trends, and leaderboard access',
   },
   professional: {
-    price_usdc_month: 499,
+    price_usdc_month: 299,
     features: [
       'aei_realtime', 'reputation_trends', 'reputation_leaderboard',
       'arbitration_signals', 'knowledge_prices', 'genetic_fitness',
     ],
+    description: 'Full analytics suite with arbitration signals and genetic fitness',
   },
-  institutional: {
-    price_usdc_month: 5000,
+  enterprise: {
+    price_usdc_month: 999,
     features: [
       'aei_realtime', 'reputation_trends', 'reputation_leaderboard',
       'arbitration_signals', 'knowledge_prices', 'genetic_fitness',
       'firehose', 'api_access',
     ],
+    description: 'Complete data access with firehose stream and API',
+    sla: '99.9% uptime guarantee',
   },
 };
 
