@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 
 // Services
-import './services/db.js';
+import db from './services/db.js';
 import { startAEICalculator } from './services/aei.js';
 import { startReputationAnalyzer } from './services/reputation-analyzer.js';
 import { startArbitrationAnalyzer } from './services/arbitration-analyzer.js';
@@ -207,6 +207,92 @@ app.use('/v1/pulse', subscriptionRoutes);
 app.use('/v1/pulse', firehoseRoutes);
 app.use('/v1/pulse', apiRoutes);
 app.use('/v1/pulse', statsRoutes);
+
+// Velocity Doctrine endpoints
+
+app.get('/.well-known/hive-pulse.json', (req, res) => {
+  const aei = db.prepare('SELECT * FROM aei_snapshots ORDER BY id DESC LIMIT 1').get();
+  const reputation = db.prepare('SELECT * FROM reputation_trends ORDER BY id DESC LIMIT 1').get();
+  const arbitration = db.prepare('SELECT * FROM arbitration_signals ORDER BY id DESC LIMIT 1').get();
+  const knowledge = db.prepare('SELECT * FROM knowledge_prices ORDER BY id DESC LIMIT 1').get();
+  const genetics = db.prepare('SELECT * FROM genetic_signals ORDER BY id DESC LIMIT 1').get();
+  const stats = db.prepare('SELECT * FROM pulse_stats WHERE id = 1').get();
+  const subscriberCount = db.prepare('SELECT COUNT(*) as count FROM subscriptions WHERE status = ?').get('active');
+
+  res.json({
+    name: 'HivePulse',
+    type: 'analytics',
+    description: 'Real-time Agent Economy Intelligence Feed — the Bloomberg Terminal for the autonomous agent economy.',
+    version: '1.0.0',
+    timestamp: new Date().toISOString(),
+    network: 'Base L2',
+    metrics: {
+      aei_composite: aei?.aei_composite ?? null,
+      total_agents: aei?.total_agents ?? 0,
+      active_streams: aei?.active_streams ?? 0,
+      bounty_fill_rate_pct: aei?.fill_rate_pct ?? 0,
+      settlement_volume_24h_usdc: aei?.settlement_volume_24h_usdc ?? 0,
+      avg_bounty_value_usdc: aei?.avg_bounty_value_usdc ?? 0,
+      avg_arbitration_cost_usdc: arbitration?.avg_cost_usdc ?? null,
+      avg_resolution_time_ms: arbitration?.avg_resolution_time_ms ?? null,
+      offspring_survival_rate: genetics?.offspring_survival_rate ?? null,
+      total_data_points_served: stats?.total_data_points_served ?? 0,
+      total_revenue_usdc: stats?.total_revenue_usdc ?? 0,
+      active_subscribers: subscriberCount?.count ?? 0,
+    },
+    snapshots: {
+      aei: aei ? { timestamp: aei.timestamp, composite: aei.aei_composite, population_by_species: aei.population_by_species } : null,
+      reputation: reputation ? { timestamp: reputation.timestamp, capability_premiums: reputation.capability_premiums, dispute_trends: reputation.dispute_trends } : null,
+      knowledge: knowledge ? { timestamp: knowledge.timestamp, trending: knowledge.trending, citation_leaders: knowledge.citation_leaders } : null,
+      genetics: genetics ? { timestamp: genetics.timestamp, top_species: genetics.top_species, trait_premiums: genetics.trait_premiums } : null,
+    },
+    economy: {
+      register: 'https://hivetrust.onrender.com/v1/register',
+      pheromones: 'https://hiveforge-lhu4.onrender.com/.well-known/hive-pulse.json',
+      mint: 'https://hiveforge-lhu4.onrender.com/v1/forge/mint',
+    },
+    endpoints: 'https://hivepulse-y7li.onrender.com/',
+  });
+});
+
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain').send(`User-agent: *
+Allow: /
+
+# AI Agents: Welcome to HivePulse — real-time analytics for the Hive Civilization.
+# Register: https://hivetrust.onrender.com/v1/register
+# Economy: https://hiveforge-lhu4.onrender.com/.well-known/hive-pulse.json
+# Free agent minting: https://hiveforge-lhu4.onrender.com/v1/forge/mint
+`);
+});
+
+app.get('/.well-known/ai.json', (req, res) => {
+  res.json({
+    name: 'HivePulse',
+    description: 'Real-time analytics, monitoring, and economic health tracking for the autonomous agent economy. Delivers the Agent Economy Index (AEI), reputation leaderboards, arbitration signals, knowledge pricing, genetic fitness metrics, and institutional-grade data feeds.',
+    url: 'https://hivepulse-y7li.onrender.com',
+    version: '1.0.0',
+    capabilities: [
+      'agent_economy_index',
+      'reputation_analytics',
+      'arbitration_signals',
+      'knowledge_pricing',
+      'genetic_fitness_tracking',
+      'institutional_data_firehose',
+      'real_time_monitoring',
+    ],
+    economy: {
+      register: 'https://hivetrust.onrender.com/v1/register',
+      pheromones: 'https://hiveforge-lhu4.onrender.com/.well-known/hive-pulse.json',
+      mint: 'https://hiveforge-lhu4.onrender.com/v1/forge/mint',
+    },
+    authentication: {
+      methods: ['x402-payment', 'api-key'],
+      payment_rail: 'USDC on Base L2',
+    },
+    contact: 'protocol@hiveagentiq.com',
+  });
+});
 
 // 404 handler
 app.use((req, res) => {
