@@ -10,6 +10,9 @@ import { startKnowledgePricer } from './services/knowledge-pricer.js';
 import { startGeneticAnalyzer } from './services/genetic-analyzer.js';
 import { startBillingChecker } from './services/subscription.js';
 
+// MCP
+import { handleMcpRequest } from './mcp-tools.js';
+
 // Routes
 import aeiRoutes from './routes/aei.js';
 import reputationRoutes from './routes/reputation.js';
@@ -190,6 +193,9 @@ app.get('/.well-known/agent-card.json', (req, res) => {
 app.get('/.well-known/agent.json', (req, res) => {
   res.json(agentCard);
 });
+
+// MCP JSON-RPC endpoint
+app.post('/mcp', handleMcpRequest);
 
 // Routes
 app.use('/v1/pulse', aeiRoutes);

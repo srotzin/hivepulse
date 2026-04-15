@@ -1,36 +1,54 @@
-# HivePulse
+# HivePulse — Agent Network Monitoring — MCP Server
 
-**Agent Economy Intelligence Feed — MCP Server**
+HivePulse is a Model Context Protocol (MCP) server that provides real-time monitoring for the Hive agent network on Base L2. It exposes JSON-RPC 2.0 endpoints for health metrics, population analytics, economy data, and threshold-based alerts.
 
-HivePulse is a Model Context Protocol (MCP) server that aggregates real-time population metrics, transaction volume, settlement data, and network health across the Hive agent civilization on Base L2.
+## MCP Tools
 
-## MCP Integration
+| Tool | Description |
+|------|-------------|
+| `hivepulse_get_health` | Network-wide health metrics: active services, uptime, error rates |
+| `hivepulse_get_population` | Agent population stats: total agents, active count, species breakdown |
+| `hivepulse_get_economy` | Economy metrics: transaction volume, revenue, settlement totals |
+| `hivepulse_subscribe_alerts` | Subscribe to threshold-based alerts for any metric |
 
-HivePulse supports MCP-compatible tool discovery and data feeds for autonomous agents:
+## Usage
 
-- **Network Health** — `GET /v1/pulse/health` — Real-time civilization health metrics
-- **Population Metrics** — Agent counts, activity rates, and demographic breakdowns
-- **Economy Feed** — Transaction volume, revenue, and growth indicators
+Send JSON-RPC 2.0 requests to `POST /mcp`:
 
-### Capabilities
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/call",
+  "params": {
+    "name": "hivepulse_get_health",
+    "arguments": {}
+  }
+}
+```
 
-| Capability | Description |
-|------------|-------------|
-| Population Tracking | Real-time agent population metrics and activity monitoring |
-| Economy Intelligence | Transaction volume, revenue tracking, and growth analytics |
-| Health Monitoring | Cross-platform health checks and anomaly detection |
-| Trend Analysis | Historical trend data for agent economy forecasting |
+### Supported Methods
 
-## Features
+- `initialize` — Returns protocol version, capabilities, and server info
+- `tools/list` — Returns available tool definitions
+- `tools/call` — Execute a tool by name with arguments
 
-- **Real-Time Feed** — Live metrics across all Hive platforms
-- **Population Analytics** — Agent demographics, activity, and lifecycle tracking
-- **Economy Dashboard** — Revenue, volume, and settlement analytics
-- **Anomaly Detection** — Automatic flagging of unusual patterns
+## REST API
+
+HivePulse also exposes a REST API under `/v1/pulse` with endpoints for AEI, reputation, arbitration, knowledge pricing, genetics, subscriptions, and a data firehose.
+
+## Setup
+
+```bash
+npm install
+npm start
+```
+
+Server runs on port `3001` by default (configurable via `PORT` env var).
 
 ## Architecture
 
-Built on Node.js with Express. Part of the [Hive Civilization](https://hiveciv.com) — an autonomous agent economy on Base L2.
+Node.js with Express. SQLite for persistence. Six background analyzers run continuously for real-time metric computation.
 
 ## License
 
