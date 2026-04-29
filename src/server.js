@@ -139,7 +139,7 @@ app.get('/.well-known/ai-plugin.json', (req, res) => {
       protocol: 'x402',
       currency: 'USDC',
       network: 'base',
-      address: '0x78B3B3C356E89b5a69C488c6032509Ef4260B6bf',
+      address: '0x15184bf50b3d3f52b60434f8942b7d52f2eb436e',
     },
     contact_email: 'protocol@hiveagentiq.com',
     legal_info_url: 'https://www.hiveagentiq.com/terms',
@@ -182,7 +182,7 @@ const agentCard = {
     protocol: 'x402',
     currency: 'USDC',
     network: 'base',
-    address: '0x78B3B3C356E89b5a69C488c6032509Ef4260B6bf',
+    address: '0x15184bf50b3d3f52b60434f8942b7d52f2eb436e',
   },
 };
 
